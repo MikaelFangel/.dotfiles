@@ -23,6 +23,7 @@ export MOZ_ENABLE_WAYLAND=1
 alias icat='kitty +kitten icat'
 alias clip='kitty +kitten clipboard'
 alias ls='ls --color=auto'
+alias ip='ip -c'
 alias grep='rg'
 alias vim='nvim'
 alias scrot="$HOME/.dotfiles/scrot.sh"
