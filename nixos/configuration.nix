@@ -52,7 +52,7 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
+    layout = "eu";
     xkbVariant = "";
   };
 
@@ -87,6 +87,7 @@
     packages = with pkgs; [
       firefox
       git
+      gh # GitHub client
       signal-desktop
       jetbrains.idea-community
       jetbrains.goland
@@ -96,6 +97,8 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  programs.steam.enable = true;
   
   # Nvidia Configuration
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -126,6 +129,16 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     gnupg
     pinentry-curses
+    nftables
+
+    # Programming languages
+    go
+    jdk
+    protobuf
+
+    patchelf
+    
+    steam
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -147,11 +160,10 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Firewall settings
+  networking.firewall = {
+    enable = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
