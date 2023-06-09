@@ -45,9 +45,8 @@
 
   # Power management
   powerManagement.enable = true;
-  powerManagement.powertop.enable = true;
-  # Disallow for usb suspend as it affect the keyboard
-  boot.kernelParams = ["usbcore.autosuspend=-1"];
+  services.tlp.enable = true;
+  services.power-profiles-daemon.enable = false;
   boot.blacklistedKernelModules = [
     "nouveau"
   ];
