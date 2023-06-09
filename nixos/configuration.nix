@@ -11,6 +11,48 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  # Specilisations
+  specialisation = {
+    nvidia.configuration = {
+      # Nvidia Configuration
+      services.xserver.videoDrivers = [ "nvidia" ];
+      hardware.opengl.enable = true;
+
+      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+      # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
+      hardware.nvidia.modesetting.enable = true;
+
+      hardware.nvidia.prime = {
+        sync.enable = true;
+
+        # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
+        nvidiaBusId = "PCI:1:0:0";
+
+        # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
+        intelBusId = "PCI:0:2:0";
+      };
+
+      # Fix for screen tearing
+      hardware.nvidia.forceFullCompositionPipeline = true; 
+    };
+  };
+
+
+  # Thermal control
+  services.thermald.enable = true; 
+
+  # Power management
+  powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
+  # Disallow for usb suspend as it affect the keyboard
+  boot.kernelParams = ["usbcore.autosuspend=-1"];
+  boot.blacklistedKernelModules = [
+    "nouveau"
+  ];
+  services.upower.enable = true;
+
   networking.hostName = "nixos"; # Define your hostname.
 
   # Enable networking
@@ -40,6 +82,16 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+
+  # Remove unwanted programs
+  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    konsole
+  ];
+
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -81,29 +133,6 @@
   nixpkgs.config.allowUnfree = true;
 
   programs.steam.enable = true;
-  
-  # Nvidia Configuration
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
-  hardware.nvidia.modesetting.enable = true;
-
-  hardware.nvidia.prime = {
-    sync.enable = true;
-
-    # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-    nvidiaBusId = "PCI:1:0:0";
-
-    # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-    intelBusId = "PCI:0:2:0";
-  };
-
-  # Fix for screen tearing
-  hardware.nvidia.forceFullCompositionPipeline = true; 
 
   # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
@@ -111,6 +140,7 @@
     gnupg
     pinentry-curses
     nftables
+    kitty
 
     # Programming languages
     go
