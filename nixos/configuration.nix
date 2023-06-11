@@ -4,6 +4,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -126,6 +127,48 @@
       jetbrains.goland
       nextcloud-client
     ];
+  };
+
+  # home-manager setup 
+  home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
+  home-manager.users.mikael = {pkgs, ... }: {
+    home.stateVersion = "23.05";
+    programs.zsh = {
+      enable = true;
+      shellAliases = {
+        ls="ls --color=auto";
+        ip="ip -c";
+      };
+      history = {
+        size = 10000;
+      };
+      initExtra = ''
+         setopt autocd
+         setopt HIST_EXPIRE_DUPS_FIRST
+         setopt NO_BEEP
+         zstyle :compinstall filename '/home/mikael/.zshrc'
+         autoload -Uz compinit && compinit
+         autoload -U colors && colors
+         export PATH="$PATH:$(go env GOPATH)/bin"
+      '';
+    };
+    programs.git = {
+      enable = true;
+      userName = "Mikael Fangel";
+      userEmail = "34864484+MikaelFangel@users.noreply.github.com";
+      
+      extraConfig = {
+         commit.gpgsign = true; 
+         user.signingkey = "306DE4426F0B77C3";
+      };
+    };
+    home.file.".gitconfig" = {
+      text = ''
+         [pull]
+	   rebase = false
+      '';
+    };
   };
 
   # Allow unfree packages
