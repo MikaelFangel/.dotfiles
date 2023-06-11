@@ -136,6 +136,10 @@
     home.stateVersion = "23.05";
     programs.zsh = {
       enable = true;
+      autocd = true;
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      enableSyntaxHighlighting = true;
       shellAliases = {
         ls="ls --color=auto";
         ip="ip -c";
@@ -144,11 +148,6 @@
         size = 10000;
       };
       initExtra = ''
-         setopt autocd
-         setopt HIST_EXPIRE_DUPS_FIRST
-         setopt NO_BEEP
-         zstyle :compinstall filename '/home/mikael/.zshrc'
-         autoload -Uz compinit && compinit
          autoload -U colors && colors
          export PATH="$PATH:$(go env GOPATH)/bin"
       '';
