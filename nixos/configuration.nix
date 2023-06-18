@@ -45,8 +45,9 @@
   services.thermald.enable = true; 
 
   # Power management
-  # powerManagement.enable = true;
-  # services.tlp.enable = true;
+  powerManagement.enable = true;
+
+  # tlp conflicts with auto-cpufreq ensure they are not enabled together
   services.tlp = {
       enable = true;
       settings = {
@@ -59,31 +60,22 @@
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
         CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "powersave";
 
+	# Frequency in KHz
         CPU_SCALING_MIN_FREQ_ON_AC = 800000;
         CPU_SCALING_MAX_FREQ_ON_AC = 5000000;
         CPU_SCALING_MIN_FREQ_ON_BAT = 800000;
         CPU_SCALING_MAX_FREQ_ON_BAT = 2600000;
       };
     };
+  
+  # Conflicts with tlp
   services.power-profiles-daemon.enable = false;
   boot.blacklistedKernelModules = [
      "nouveau"
   ];
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-       governor = "powersave";
-       turbo = "never";
-    };
-    charger = {
-       governor = "powersave";
-       turbo = "never";
-    };
-
-  };
   services.upower.enable = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -329,6 +321,7 @@ wQA2RQg=
     pinentry-curses
     nftables
     kitty
+    i7z
 
     # Programming languages
     go
