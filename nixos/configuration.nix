@@ -70,6 +70,12 @@
     pulse.enable = true;
   };
 
+  # Define who can access the Nix package manager
+  nix.settings.allowed-users = [ "@wheel" ];
+
+  # Auto optimise system
+  nix.settings.auto-optimise-store = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mikael = {
     isNormalUser = true;
