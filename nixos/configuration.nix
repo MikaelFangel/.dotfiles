@@ -4,6 +4,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./network-configuration.nix
+      ./power-configuration.nix
+      ./specilisations.nix
       <home-manager/nixos>
     ];
 
@@ -11,76 +14,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-
-  # Specilisations
-  specialisation = {
-    nvidia.configuration = {
-      # Nvidia Configuration
-      services.xserver.videoDrivers = [ "nvidia" ];
-      hardware.opengl.enable = true;
-
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-      # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
-      hardware.nvidia.modesetting.enable = true;
-
-      hardware.nvidia.prime = {
-        sync.enable = true;
-
-        # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-        nvidiaBusId = "PCI:1:0:0";
-
-        # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-        intelBusId = "PCI:0:2:0";
-      };
-
-      # Fix for screen tearing
-      hardware.nvidia.forceFullCompositionPipeline = true; 
-    };
-  };
-
-
-  # Thermal control
-  services.thermald.enable = true; 
-
-  # Power management
-  powerManagement.enable = true;
-
-  # tlp conflicts with auto-cpufreq ensure they are not enabled together
-  services.tlp = {
-      enable = true;
-      settings = {
-	# Operation mode when no power supply can be detected: AC, BAT.
-	TLP_DEFAULT_MODE = "BAT";
-
-	# Operation mode select: 0=depend on power source, 1=always use TLP_DEFAULT_MODE
-	TLP_PERSISTENT_DEFAULT = 1;
-
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-
-	CPU_MIN_PERF_ON_AC = 0;
-	CPU_MAX_PERF_ON_AC = 100;
-	CPU_MIN_PERF_ON_BAT = 0;
-	CPU_MAX_PERF_ON_BAT = 20;
-      };
-    };
-  
-  # Conflicts with tlp
-  services.power-profiles-daemon.enable = false;
-  boot.blacklistedKernelModules = [
-     "nouveau"
-  ];
-  services.upower.enable = true;
-
-  networking.hostName = "nixos"; # Define your hostname.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
@@ -149,7 +82,9 @@
       signal-desktop
       jetbrains.idea-community
       jetbrains.goland
+      android-studio
       nextcloud-client
+      libreoffice-fresh
     ];
   };
 
@@ -315,7 +250,6 @@ wQA2RQg=
 
   # List packages installed in system profile. 
   environment.systemPackages = with pkgs; [
-    vim 
     gnupg
     pinentry-curses
     nftables
@@ -325,16 +259,16 @@ wQA2RQg=
     # Programming languages
     go
     jdk
-    protobuf
 
     # Used for fixing broken binaries
     patchelf
   ];
 
-  # Setting default environment values
-  environment.variables = {
-    EDITOR = "vim";
-    VISUAL = "vim";
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -348,11 +282,6 @@ wQA2RQg=
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
-
-  # Firewall settings
-  networking.firewall = {
-    enable = true;
-  };
 
   # Fine to be left as is. Don't change if you haven't read documentation fist.
   system.stateVersion = "22.11"; # Did you read the comment?
