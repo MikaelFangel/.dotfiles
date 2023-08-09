@@ -75,6 +75,12 @@
 
   # Auto optimise system
   nix.settings.auto-optimise-store = true;
+  nix.gc = {
+    automatic = true;
+    persistent = true;
+    dates = "weekly";
+    options = "-d";
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mikael = {
