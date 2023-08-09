@@ -113,6 +113,13 @@
          export PATH="$PATH:$(go env GOPATH)/bin"
       '';
     };
+    programs.kitty = {
+      enable = true;
+      theme = "Monokai Soda";
+      settings = {
+        background_opacity = "0.90";
+      };
+    };
     programs.git = {
       enable = true;
       userName = "Mikael Fangel";
