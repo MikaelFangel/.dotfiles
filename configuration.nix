@@ -73,13 +73,22 @@
   # Define who can access the Nix package manager
   nix.settings.allowed-users = [ "@wheel" ];
 
-  # Auto optimise system
+  # Auto optimise storage used by the system
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
     persistent = true;
     dates = "weekly";
     options = "-d";
+    randomizedDelaySec = "15min";
+  };
+
+  # Auto upgrade the system
+  system.autoUpgrade = {
+    enable = true;
+    persistent = true;
+    dates = "daily";
+    randomizedDelaySec = "15min";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
