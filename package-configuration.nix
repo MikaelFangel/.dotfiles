@@ -45,6 +45,10 @@
     nftables
     kitty
 
+    # Utilities
+    zip
+    unzip
+
     # Programming languages
     go
     jdk
@@ -65,9 +69,10 @@
       android-studio
       nextcloud-client
       libreoffice-fresh
+      nerdfonts # used by nvchad
+      ripgrep
     ];
   };
-
 
   # home-manager setup 
   home-manager.useUserPackages = true;
@@ -120,5 +125,11 @@
    home.file.".config/ca_eduroam.pem" = {
      text = builtins.readFile ./ca_eduroam.pem; 
    };
+
+   # Nvchad config files
+   home.file.".config/nvim/lua/custom/chadrc.lua".text = builtins.readFile ./nvchad/chadrc.lua;
+   home.file.".config/nvim/lua/custom/configs/lspconfig.lua".text = builtins.readFile ./nvchad/lspconfig.lua;
+   home.file.".config/nvim/lua/custom/configs/null-ls.lua".text = builtins.readFile ./nvchad/null-ls.lua;
+   home.file.".config/nvim/lua/custom/configs/overrides.lua".text = builtins.readFile ./nvchad/overrides.lua;
   };
 }
