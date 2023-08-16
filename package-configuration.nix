@@ -17,6 +17,9 @@
   ];
 
   # Enable programs system wide
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
   programs.steam.enable = true;
 
   programs.neovim = {
@@ -48,17 +51,19 @@
     # Utilities
     zip
     unzip
+    virt-manager
 
     # Programming languages
     go
     jdk
+    dotnet-sdk
   ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mikael = {
     isNormalUser = true;
     description = "mikael";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [
       firefox
       git
@@ -67,6 +72,14 @@
       jetbrains.idea-community
       jetbrains.goland
       android-studio
+      (vscode-with-extensions.override {
+        vscodeExtensions = with vscode-extensions; [
+	  ms-dotnettools.csharp # Ionide dependency
+	  ionide.ionide-fsharp
+
+	  dracula-theme.theme-dracula
+	];
+      })
       nextcloud-client
       libreoffice-fresh
       nerdfonts # used by nvchad
@@ -99,6 +112,14 @@
          export PATH="$PATH:$(go env GOPATH)/bin"
       '';
     };
+    
+  # Virtmanagre config
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
+  };
     programs.kitty = {
       enable = true;
       theme = "Monokai Soda";
