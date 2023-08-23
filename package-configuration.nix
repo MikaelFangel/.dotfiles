@@ -52,6 +52,8 @@
     zip
     unzip
     virt-manager
+    openrazer-daemon
+    polychromatic
 
     # Programming languages
     go
@@ -63,7 +65,7 @@
   users.users.mikael = {
     isNormalUser = true;
     description = "mikael";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer"];
     packages = with pkgs; [
       firefox
       git
