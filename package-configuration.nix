@@ -68,6 +68,7 @@
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer"];
     packages = with pkgs; [
       firefox
+      ungoogled-chromium # Used for MS Teams
       git
       gh # GitHub client
       signal-desktop
