@@ -70,7 +70,6 @@
     persistent = true;
     dates = "weekly";
     options = "-d";
-    randomizedDelaySec = "15min";
   };
 
   # Auto upgrade the system
@@ -78,7 +77,6 @@
     enable = true;
     persistent = true;
     dates = "daily";
-    randomizedDelaySec = "15min";
   };
 
   # Fine to be left as is. Don't change if you haven't read documentation fist.

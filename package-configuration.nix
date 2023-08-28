@@ -21,6 +21,7 @@
   programs.dconf.enable = true;
 
   programs.steam.enable = true;
+  programs.wireshark.enable = true;
 
   programs.neovim = {
     enable = true;
@@ -65,10 +66,12 @@
   users.users.mikael = {
     isNormalUser = true;
     description = "mikael";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer"];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer" "wireshark"];
     packages = with pkgs; [
       firefox
       ungoogled-chromium # Used for MS Teams
+      thunderbird
+      protonmail-bridge
       git
       gh # GitHub client
       signal-desktop
@@ -87,6 +90,7 @@
       libreoffice-fresh
       nerdfonts # used by nvchad
       ripgrep
+      wireshark
     ];
   };
 
