@@ -1,7 +1,10 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, inputs, ... }:
+let
+   rmosxf = pkgs.callPackage ./custom-pkgs/rmosxf/default.nix {};
+   gitpolite = pkgs.callPackage ./custom-pkgs/gitpolite/default.nix {};
+in
 {
-  imports = [ <home-manager/nixos> ];
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -55,11 +58,16 @@
     virt-manager
     openrazer-daemon
     polychromatic
+    wineWowPackages.full
+    spice-vdagent
+
+    # Security
+    vulnix
 
     # Programming languages
     go
     jdk
-    dotnet-sdk
+    # dotnet-sdk
   ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -68,6 +76,9 @@
     description = "mikael";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer" "wireshark"];
     packages = with pkgs; [
+      rmosxf
+      gitpolite
+
       firefox
       ungoogled-chromium # Used for MS Teams
       thunderbird
@@ -75,6 +86,7 @@
       git
       gh # GitHub client
       signal-desktop
+      element-desktop
       jetbrains.idea-community
       jetbrains.goland
       android-studio
@@ -84,6 +96,7 @@
 	  ionide.ionide-fsharp
 
 	  dracula-theme.theme-dracula
+	  mkhl.direnv
 	];
       })
       nextcloud-client
@@ -120,19 +133,24 @@
       '';
     };
     
-  # Virtmanagre config
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
+    # Virtmanager config
+    dconf.settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
+      };
     };
-  };
     programs.kitty = {
       enable = true;
       theme = "Monokai Soda";
       settings = {
         background_opacity = "0.90";
       };
+    };
+    programs.direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
     };
     programs.git = {
       enable = true;

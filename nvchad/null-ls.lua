@@ -15,6 +15,7 @@ local sources = {
   b.formatting.clang_format,
 
   -- Go
+  b.formatting.gofumpt,
   b.diagnostics.golangci_lint,
   b.formatting.goimports,
 

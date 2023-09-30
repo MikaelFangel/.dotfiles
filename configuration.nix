@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
@@ -14,6 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.tmp.useTmpfs = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
@@ -60,6 +61,8 @@
     pulse.enable = true;
   };
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Define who can access the Nix package manager
   nix.settings.allowed-users = [ "@wheel" ];
 
@@ -75,6 +78,8 @@
   # Auto upgrade the system
   system.autoUpgrade = {
     enable = true;
+    flake = inputs.self.outPath;
+    flags = [ "--update-input" "nixpkgs" ]; 
     persistent = true;
     dates = "daily";
   };

@@ -15,6 +15,7 @@
   # Firewall settings
   networking.firewall = {
     enable = true;
+    allowPing = false;
     allowedUDPPorts = [ 51820 ]; # Wireguard
   };
 }
