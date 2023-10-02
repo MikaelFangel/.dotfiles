@@ -66,8 +66,6 @@ in
 
     # Programming languages
     go
-    jdk
-    # dotnet-sdk
   ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -94,6 +92,7 @@ in
         vscodeExtensions = with vscode-extensions; [
 	  ms-dotnettools.csharp # Ionide dependency
 	  ionide.ionide-fsharp
+	   asvetliakov.vscode-neovim
 
 	  dracula-theme.theme-dracula
 	  mkhl.direnv
@@ -117,7 +116,7 @@ in
       autocd = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       shellAliases = {
         icat="kitty +kitten icat";
         clip="kitty +kitten clipboard";

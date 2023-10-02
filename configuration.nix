@@ -62,6 +62,7 @@
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 
   # Define who can access the Nix package manager
   nix.settings.allowed-users = [ "@wheel" ];
@@ -79,7 +80,11 @@
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;
-    flags = [ "--update-input" "nixpkgs" ]; 
+    flags = [ 
+      "--update-input"
+      "nixpkgs"
+      "-L"
+    ]; 
     persistent = true;
     dates = "daily";
   };

@@ -10,7 +10,6 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.macAddress = "random";
   networking.networkmanager.ethernet.macAddress = "random";
-  networking.networkmanager.firewallBackend = "nftables";
 
   # Firewall settings
   networking.firewall = {
