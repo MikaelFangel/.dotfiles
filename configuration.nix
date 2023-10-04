@@ -49,6 +49,9 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  
+  # Enable tocuhpad gestures
+  services.touchegg.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
