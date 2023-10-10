@@ -11,10 +11,14 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.tmp.useTmpfs = true;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot/efi";
+    };
+    tmp.useTmpfs = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Copenhagen";
@@ -34,24 +38,29 @@
     LC_TIME = "da_DK.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      # Enable the X11 windowing system.
+      enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+      # Enable the KDE Plasma Desktop Environment.
+      displayManager.sddm.enable = true;
+      desktopManager.plasma5.enable = true;
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "eu";
-    xkbVariant = "";
+      # Configure keymap in X11
+      layout = "eu";
+      xkbVariant = "";
+    };
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
+    
+    # Enable tocuhpad gestures
+    touchegg.enable = true;
+
+    # Periodically trim the sdd
+    fstrim.enable = true;
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  
-  # Enable tocuhpad gestures
-  services.touchegg.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -64,19 +73,25 @@
     pulse.enable = true;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+  nix = { 
+    nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+    
+    settings = { 
+      experimental-features = [ "nix-command" "flakes" ];
 
-  # Define who can access the Nix package manager
-  nix.settings.allowed-users = [ "@wheel" ];
+      # Define who can access the Nix package manager
+      allowed-users = [ "@wheel" ];
 
-  # Auto optimise storage used by the system
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    persistent = true;
-    dates = "weekly";
-    options = "-d";
+      # Auto optimise storage used by the system
+      auto-optimise-store = true;
+    }; 
+
+    gc = {
+      automatic = true;
+      persistent = true;
+      dates = "weekly";
+      options = "-d";
+    };
   };
 
   # Auto upgrade the system
@@ -86,6 +101,7 @@
     flags = [ 
       "--update-input"
       "nixpkgs"
+      "--commit-lock-file"
       "-L"
     ]; 
     persistent = true;

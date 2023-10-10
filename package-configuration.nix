@@ -21,27 +21,30 @@ in
 
   # Enable programs system wide
   virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
+  programs = {
+    dconf.enable = true;
 
-  programs.steam.enable = true;
-  programs.wireshark.enable = true;
+    steam.enable = true;
+    wireshark.enable = true;
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      viAlias = true;
+      vimAlias = true;
+    };
+
+    # Some programs need SUID wrappers, can be configured further or are
+    # started in user sessions.
+    gnupg.agent = {
+       enable = true;
+       pinentryFlavor="curses";
+    };
+
+    # Set the system default shell
+    zsh.enable = true;
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.gnupg.agent = {
-     enable = true;
-     pinentryFlavor="curses";
-  };
-
-  # Set the system default shell
-  programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
 
@@ -92,7 +95,7 @@ in
         vscodeExtensions = with vscode-extensions; [
 	  ms-dotnettools.csharp # Ionide dependency
 	  ionide.ionide-fsharp
-	   asvetliakov.vscode-neovim
+	  asvetliakov.vscode-neovim
 
 	  dracula-theme.theme-dracula
 	  mkhl.direnv
@@ -111,27 +114,51 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.users.mikael = {pkgs, ... }: {
     home.stateVersion = "23.05";
-    programs.zsh = {
-      enable = true;
-      autocd = true;
-      enableAutosuggestions = true;
-      enableCompletion = true;
-      syntaxHighlighting.enable = true;
-      shellAliases = {
-        icat="kitty +kitten icat";
-        clip="kitty +kitten clipboard";
-        ls="ls --color=auto";
-        ip="ip -c";
+    programs = {
+      zsh = {
+        enable = true;
+        autocd = true;
+        enableAutosuggestions = true;
+        enableCompletion = true;
+        syntaxHighlighting.enable = true;
+        shellAliases = {
+          icat="kitty +kitten icat";
+          clip="kitty +kitten clipboard";
+          ls="ls --color=auto";
+          ip="ip -c";
+        };
+        history = {
+          size = 10000;
+        };
+        initExtra = ''
+           autoload -U colors && colors
+           export PATH="$PATH:$(go env GOPATH)/bin"
+        '';
       };
-      history = {
-        size = 10000;
+      kitty = {
+        enable = true;
+        theme = "Monokai Soda";
+        settings = {
+          background_opacity = "0.90";
+        };
       };
-      initExtra = ''
-         autoload -U colors && colors
-         export PATH="$PATH:$(go env GOPATH)/bin"
-      '';
+      direnv = {
+        enable = true;
+        enableZshIntegration = true;
+        nix-direnv.enable = true;
+      };
+      git = {
+        enable = true;
+        userName = "Mikael Fangel";
+        userEmail = "34864484+MikaelFangel@users.noreply.github.com";
+        
+        extraConfig = {
+           commit.gpgsign = true; 
+           user.signingkey = "306DE4426F0B77C3";
+        };
+      };
     };
-    
+
     # Virtmanager config
     dconf.settings = {
       "org/virt-manager/virt-manager/connections" = {
@@ -139,42 +166,14 @@ in
         uris = ["qemu:///system"];
       };
     };
-    programs.kitty = {
-      enable = true;
-      theme = "Monokai Soda";
-      settings = {
-        background_opacity = "0.90";
-      };
-    };
-    programs.direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      nix-direnv.enable = true;
-    };
-    programs.git = {
-      enable = true;
-      userName = "Mikael Fangel";
-      userEmail = "34864484+MikaelFangel@users.noreply.github.com";
-      
-      extraConfig = {
-         commit.gpgsign = true; 
-         user.signingkey = "306DE4426F0B77C3";
-      };
-    };
-    home.file.".gitconfig" = {
-      text = ''
-         [pull]
-	  rebase = false
-      '';
-    };
-   home.file.".config/ca_eduroam.pem" = {
-     text = builtins.readFile ./ca_eduroam.pem; 
-   };
+    
+    home.file = {
+      ".gitconfig".text = ''
+           [pull]
+            rebase = false
+        '';
 
-   # Nvchad config files
-   home.file.".config/nvim/lua/custom/chadrc.lua".text = builtins.readFile ./nvchad/chadrc.lua;
-   home.file.".config/nvim/lua/custom/configs/lspconfig.lua".text = builtins.readFile ./nvchad/lspconfig.lua;
-   home.file.".config/nvim/lua/custom/configs/null-ls.lua".text = builtins.readFile ./nvchad/null-ls.lua;
-   home.file.".config/nvim/lua/custom/configs/overrides.lua".text = builtins.readFile ./nvchad/overrides.lua;
+      ".config/ca_eduroam.pem".text = builtins.readFile ./ca_eduroam.pem; 
+    };
   };
 }
