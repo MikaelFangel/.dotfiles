@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, nur, ... }:
 let
    rmosxf = pkgs.callPackage ./custom-pkgs/rmosxf/default.nix {};
    gitpolite = pkgs.callPackage ./custom-pkgs/gitpolite/default.nix {};
@@ -79,6 +79,7 @@ in
     packages = with pkgs; [
       rmosxf
       gitpolite
+      config.nur.repos.mikaelfangel-nur.spacedrive
 
       firefox
       ungoogled-chromium # Used for MS Teams
