@@ -80,8 +80,6 @@
       config.nur.repos.mikaelfangel-nur.battery-wallpaper
       config.nur.repos.mikaelfangel-nur.quiet
       config.nur.repos.mikaelfangel-nur.clx
-      fsautocomplete
-      dotnet-sdk
 
       firefox
       ungoogled-chromium # Used for MS Teams
