@@ -127,6 +127,7 @@
           clip="kitty +kitten clipboard";
           ls="ls --color=auto";
           ip="ip -c";
+	  nixvim="nix run github:mikaelfangel/nixvim-config";
         };
         history = {
           size = 10000;
