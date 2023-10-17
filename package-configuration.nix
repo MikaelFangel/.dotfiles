@@ -1,8 +1,5 @@
 { config, pkgs, inputs, nur, ... }:
-let
-   rmosxf = pkgs.callPackage ./custom-pkgs/rmosxf/default.nix {};
-   gitpolite = pkgs.callPackage ./custom-pkgs/gitpolite/default.nix {};
-in
+
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
 
@@ -75,11 +72,16 @@ in
   users.users.mikael = {
     isNormalUser = true;
     description = "mikael";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer" "wireshark"];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "openrazer" "wireshark" ];
     packages = with pkgs; [
-      rmosxf
-      gitpolite
+      config.nur.repos.mikaelfangel-nur.rmosxf
+      config.nur.repos.mikaelfangel-nur.gitpolite
       config.nur.repos.mikaelfangel-nur.spacedrive
+      config.nur.repos.mikaelfangel-nur.battery-wallpaper
+      config.nur.repos.mikaelfangel-nur.quiet
+      config.nur.repos.mikaelfangel-nur.clx
+      fsautocomplete
+      dotnet-sdk
 
       firefox
       ungoogled-chromium # Used for MS Teams
