@@ -69,6 +69,7 @@
   ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.groups.wazuh = {};
   users.users.mikael = {
     isNormalUser = true;
     description = "mikael";
@@ -104,8 +105,9 @@
       })
       nextcloud-client
       libreoffice-fresh
-      nerdfonts # used by nvchad
-      ripgrep
+      nerdfonts
+      ripgrep # telescope depend
+      ugrep
       wireshark
     ];
   };
@@ -128,6 +130,21 @@
           ls="ls --color=auto";
           ip="ip -c";
 	  nixvim="nix run github:mikaelfangel/nixvim-config";
+	  clx="clx -n";
+	  uq="ug -Q";
+	  ux="ug -UX";
+	  uz="ug -z";
+	  ugit="ug -R --ignore-files";
+	  grep="ugrep -G";
+	  egrep="ugrep -E";
+	  fgrep="ugrep -F";
+	  pgrep="upgrep -P";
+	  xgrep="ugrep -W";
+          zgrep="ugrep -zG";
+          zegrep="ugrep -zE";
+          zfgrep="ugrep -zF";
+          zpgrep="ugrep -zP";
+          zxgrep="ugrep -zW";
         };
         history = {
           size = 10000;
