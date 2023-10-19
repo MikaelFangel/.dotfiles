@@ -51,6 +51,9 @@
     pinentry-curses
     nftables
     kitty
+    
+    # flakes
+    inputs.nixvim.packages."x86_64-linux".default
 
     # Utilities
     zip
@@ -81,7 +84,7 @@
       config.nur.repos.mikaelfangel-nur.battery-wallpaper
       config.nur.repos.mikaelfangel-nur.quiet
       config.nur.repos.mikaelfangel-nur.clx
-
+      
       firefox
       ungoogled-chromium # Used for MS Teams
       thunderbird
@@ -129,7 +132,7 @@
           clip="kitty +kitten clipboard";
           ls="ls --color=auto";
           ip="ip -c";
-	  nixvim="nix run github:mikaelfangel/nixvim-config";
+	  # nixvim="nix run github:mikaelfangel/nixvim-config";
 	  clx="clx -n";
 	  uq="ug -Q";
 	  ux="ug -UX";
