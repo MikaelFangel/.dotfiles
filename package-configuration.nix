@@ -216,8 +216,7 @@ in {
             '';
 
             git_branch = {
-              format =
-                "[$symbol $branch(:$remote_branch) ](bold #e7b077)";
+              format = "[$symbol $branch(:$remote_branch) ](bold #e7b077)";
               symbol = "";
             };
 
@@ -247,8 +246,7 @@ in {
 
             cmd_duration = {
               min_time = 1;
-              format =
-                "[[ ](fg: bold)$duration](fg: #BBC3DF)";
+              format = "[[ ](fg: bold)$duration](fg: #BBC3DF)";
               disabled = false;
             };
           };
@@ -266,6 +264,10 @@ in {
           extraConfig = {
             commit.gpgsign = true;
             user.signingkey = "306DE4426F0B77C3";
+            pull.rebase = false; 
+            init.defaultBranch = "main";
+            push.autoSetupRemote = true;
+            help.autocorrect = 50;
           };
         };
       };
@@ -278,14 +280,8 @@ in {
         };
       };
 
-      home.file = {
-        ".gitconfig".text = ''
-          [pull]
-           rebase = false
-        '';
-
-        ".config/ca_eduroam.pem".text = builtins.readFile ./ca_eduroam.pem;
-      };
+      home.file.".config/ca_eduroam.pem".text =
+        builtins.readFile ./ca_eduroam.pem;
       gtk = {
         enable = true;
         theme.package = pkgs.qogir-theme;
