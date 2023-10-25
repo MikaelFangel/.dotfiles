@@ -313,6 +313,7 @@ in {
               /* #tracking-protection-icon-container {
                 display: none !important;
               } */
+              #home-button { display: none !important; }
 
               #urlbar-container {
                 min-width: 175px !important;
@@ -402,6 +403,12 @@ in {
             '';
             settings = {
               "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+              "browser.compactmode.show" = true;
+
+              # Mullvad privacy settings 
+              "privacy.resistFingerprinting" = true;
+              "privacy.resistFingerprinting.block_mozAddonManager" = true;
+              "privacy.resistFingerprinting.letterboxing" = true;
             };
           };
         };
