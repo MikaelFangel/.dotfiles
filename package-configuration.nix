@@ -98,6 +98,7 @@ in {
       swayidle
       tofi
       wlr-randr
+      xdg-utils
 
       # hypr 
       dunst
@@ -447,6 +448,10 @@ in {
         enable = true;
         theme.package = pkgs.qogir-theme;
         theme.name = "Qogir-Dark";
+        iconTheme.package = pkgs.qogir-icon-theme;
+        iconTheme.name = "Qogir-dark";
+        cursorTheme.package = pkgs.nordzy-cursor-theme;
+        cursorTheme.name = "Nordzy-cursors";
         gtk3.extraConfig = {
           gtk-application-prefer-dark-theme = 1;
           gtk-xft-antialias = 1;
