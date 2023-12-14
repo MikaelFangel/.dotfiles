@@ -33,12 +33,12 @@ in {
     steam.enable = true;
     wireshark.enable = true;
 
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-    };
+    ## neovim = {
+    ##   enable = true;
+    ##   defaultEditor = true;
+    ##   viAlias = true;
+    ##   vimAlias = true;
+    ## };
 
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.
@@ -57,6 +57,7 @@ in {
     };
   };
 
+
   users.defaultUserShell = pkgs.zsh;
   environment = {
     shells = with pkgs; [ zsh ];
@@ -65,9 +66,6 @@ in {
       kitty
       nftables
       pinentry-curses
-
-      # flakes
-      inputs.nixvim.packages."x86_64-linux".default
 
       # Utilities
       ffmpeg
@@ -79,17 +77,18 @@ in {
       wineWowPackages.full
       zip
 
+      # flakes
+      inputs.nixvim.packages."x86_64-linux".default
+
       # Security
       vulnix
-
-      # Programming languages
-      go
 
       # Wayland 
       brightnessctl
       eww-wayland
       firefox-wayland
       grim
+      slurp
       lockscreen
       qt5.qtwayland
       qt6.qmake
@@ -124,11 +123,12 @@ in {
       [ "networkmanager" "wheel" "libvirtd" "openrazer" "wireshark" ];
     packages = with pkgs; [
       config.nur.repos.mikaelfangel-nur.battery-wallpaper
-      config.nur.repos.mikaelfangel-nur.clx
       config.nur.repos.mikaelfangel-nur.gitpolite
       config.nur.repos.mikaelfangel-nur.quiet
       config.nur.repos.mikaelfangel-nur.rmosxf
-      config.nur.repos.mikaelfangel-nur.spacedrive
+      config.nur.repos.mikaelfangel-nur.ugrep-indexer
+      
+      spacedrive
 
       # firefox
       android-studio
@@ -199,13 +199,12 @@ in {
           history = { size = 10000; };
           initExtra = ''
             autoload -U colors && colors
-            export PATH="$PATH:$(go env GOPATH)/bin"
           '';
         };
         kitty = {
           enable = true;
           theme = "Monokai Soda";
-          settings = { background_opacity = "0.90"; };
+          settings = { background_opacity = "0.90"; enable_audio_bell = "no"; };
         };
         starship = {
           enable = true;
@@ -410,6 +409,9 @@ in {
               "privacy.resistFingerprinting" = true;
               "privacy.resistFingerprinting.block_mozAddonManager" = true;
               "privacy.resistFingerprinting.letterboxing" = true;
+
+              # Other privacy settings 
+              "network.http.referer.spoofSource" = true;
             };
           };
         };
@@ -426,7 +428,7 @@ in {
           extraConfig = {
             commit.gpgsign = true;
             user.signingkey = "306DE4426F0B77C3";
-            pull.rebase = false;
+            pull.rebase = true;
             init.defaultBranch = "main";
             push.autoSetupRemote = true;
             help.autocorrect = 50;
@@ -470,8 +472,8 @@ in {
       qt = {
         enable = true;
         platformTheme = "kde";
-        style.package = pkgs.qogir-kde;
-        style.name = "Qogir-Dark";
+        style.package = pkgs.libsForQt5.breeze-qt5;
+        style.name = "Breeze";
       };
     };
   };
