@@ -48,8 +48,10 @@
       desktopManager.plasma5.enable = true;
 
       # Configure keymap in X11
-      layout = "eu";
-      xkbVariant = "";
+      xkb = {
+        layout = "eu";
+        variant = "";
+      };
     };
 
     # Enable tui greet

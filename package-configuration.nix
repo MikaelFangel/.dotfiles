@@ -51,10 +51,7 @@ in {
     zsh.enable = true;
 
     # hyprland default enables [ dconf xdg-desktop-portal-hyprland polkit opengl xwayland ]
-    hyprland = {
-      enable = true;
-      enableNvidiaPatches = true;
-    };
+    hyprland.enable = true;
   };
 
 
@@ -85,7 +82,7 @@ in {
 
       # Wayland 
       brightnessctl
-      eww-wayland
+      eww
       firefox-wayland
       grim
       slurp
