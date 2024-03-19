@@ -44,7 +44,7 @@ in {
     # started in user sessions.
     gnupg.agent = {
       enable = true;
-      pinentryFlavor = "curses";
+      pinentryPackage = pkgs.pinentry-curses;
     };
 
     # Set the system default shell
@@ -169,7 +169,7 @@ in {
         zsh = {
           enable = true;
           autocd = true;
-          enableAutosuggestions = true;
+          autosuggestion.enable = true;
           enableCompletion = true;
           syntaxHighlighting.enable = true;
           shellAliases = {
