@@ -123,7 +123,6 @@ in {
       config.nur.repos.mikaelfangel-nur.gitpolite
       config.nur.repos.mikaelfangel-nur.quiet
       config.nur.repos.mikaelfangel-nur.rmosxf
-      config.nur.repos.mikaelfangel-nur.ugrep-indexer
       
       spacedrive
 
@@ -143,6 +142,7 @@ in {
       signal-desktop
       thunderbird
       ugrep
+      ugrep-indexer
       ungoogled-chromium # Used for MS Teams
       wireshark
 
