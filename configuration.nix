@@ -17,7 +17,7 @@
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
     };
-    tmp.useTmpfs = true;
+    # tmp.useTmpfs = true;
   };
 
   # Set your time zone.

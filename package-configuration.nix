@@ -134,6 +134,7 @@ in {
       jetbrains.goland
       jetbrains.idea-community
       libreoffice-fresh
+      livebook
       nerdfonts
       nextcloud-client
       pipr
@@ -468,7 +469,7 @@ in {
       };
       qt = {
         enable = true;
-        platformTheme = "kde";
+        platformTheme.name = "kde";
         style.package = pkgs.libsForQt5.breeze-qt5;
         style.name = "Breeze";
       };
