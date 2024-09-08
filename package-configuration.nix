@@ -26,6 +26,7 @@ in {
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [ elisa konsole ];
 
   services.xserver.excludePackages = with pkgs; [ xterm ];
+  services.pcscd.enable = true;
 
   # Enable programs system wide
   virtualisation.libvirtd.enable = true;
@@ -54,7 +55,6 @@ in {
     hyprland.enable = true;
   };
 
-
   users.defaultUserShell = pkgs.zsh;
   environment = {
     shells = with pkgs; [ zsh ];
@@ -73,12 +73,13 @@ in {
       virt-manager
       wineWowPackages.full
       zip
-
-      # flakes
-      inputs.nixvim.packages."x86_64-linux".default
+      yubikey-manager
 
       # Security
       vulnix
+
+      # flakes
+      inputs.nixvim.packages.${system}.default
 
       # Wayland 
       brightnessctl
@@ -123,7 +124,7 @@ in {
       config.nur.repos.mikaelfangel-nur.gitpolite
       config.nur.repos.mikaelfangel-nur.quiet
       config.nur.repos.mikaelfangel-nur.rmosxf
-      
+
       spacedrive
 
       # firefox
@@ -131,8 +132,9 @@ in {
       element-desktop
       gh # GitHub client
       git
+      isabelle
       jetbrains.goland
-      jetbrains.idea-community
+      jetbrains.idea-ultimate
       libreoffice-fresh
       livebook
       nerdfonts
@@ -144,7 +146,7 @@ in {
       thunderbird
       ugrep
       ugrep-indexer
-      ungoogled-chromium # Used for MS Teams
+      # ungoogled-chromium # Used for MS Teams
       wireshark
 
       (vscode-with-extensions.override {
@@ -202,7 +204,10 @@ in {
         kitty = {
           enable = true;
           theme = "Monokai Soda";
-          settings = { background_opacity = "0.90"; enable_audio_bell = "no"; };
+          settings = {
+            background_opacity = "0.90";
+            enable_audio_bell = "no";
+          };
         };
         starship = {
           enable = true;

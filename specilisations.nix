@@ -5,14 +5,15 @@
     nvidia.configuration = {
       # Nvidia Configuration
       services.xserver.videoDrivers = [ "nvidia" ];
-      hardware.opengl.enable = true;
-      hardware.opengl.driSupport = true;
+      hardware.graphics.enable = true;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
       # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
       hardware.nvidia.modesetting.enable = true;
+
+      hardware.nvidia.open = false;
 
       hardware.nvidia.prime = {
         sync.enable = true;
