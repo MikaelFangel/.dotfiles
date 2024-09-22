@@ -134,7 +134,7 @@ in {
       git
       isabelle
       jetbrains.goland
-      jetbrains.idea-ultimate
+      jetbrains.idea-community
       libreoffice-fresh
       livebook
       nerdfonts
@@ -203,7 +203,7 @@ in {
         };
         kitty = {
           enable = true;
-          theme = "Monokai Soda";
+          themeFile = "Monokai_Soda";
           settings = {
             background_opacity = "0.90";
             enable_audio_bell = "no";
