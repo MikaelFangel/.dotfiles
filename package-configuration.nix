@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, nur, ... }:
+{ config, pkgs, inputs, ... }:
 let
   lockscreen = pkgs.writeShellScriptBin "lockscreen" ''
     path=/tmp/tmpbg.png
@@ -30,6 +30,7 @@ in {
 
   # Enable programs system wide
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   programs = {
     steam.enable = true;
     wireshark.enable = true;
@@ -120,14 +121,14 @@ in {
     extraGroups =
       [ "networkmanager" "wheel" "libvirtd" "openrazer" "wireshark" ];
     packages = with pkgs; [
-      config.nur.repos.mikaelfangel-nur.battery-wallpaper
-      config.nur.repos.mikaelfangel-nur.gitpolite
-      config.nur.repos.mikaelfangel-nur.quiet
-      config.nur.repos.mikaelfangel-nur.rmosxf
+      nur.repos.mikaelfangel-nur.battery-wallpaper
+      nur.repos.mikaelfangel-nur.gitpolite
+      nur.repos.mikaelfangel-nur.rmosxf
 
       spacedrive
 
       # firefox
+      # nerdfonts
       android-studio
       element-desktop
       gh # GitHub client
@@ -137,7 +138,6 @@ in {
       jetbrains.idea-community
       libreoffice-fresh
       livebook
-      nerdfonts
       nextcloud-client
       pipr
       protonmail-bridge

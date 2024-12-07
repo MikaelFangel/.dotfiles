@@ -38,6 +38,11 @@
     LC_TIME = "da_DK.UTF-8";
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.fira-code
+    nerd-fonts.symbols-only
+  ];
+
   services = {
     xserver = {
       # Enable the X11 windowing system.
