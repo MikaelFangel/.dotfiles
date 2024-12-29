@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
 {
   # Power management
@@ -11,25 +11,24 @@
     tlp = {
       enable = true;
       settings = {
-        # Operation mode when no power supply can be detected: AC, BAT.
-        TLP_DEFAULT_MODE = "BAT";
+        CPU_DRIVER_OPMODE_ON_AC = "active";
+        CPU_DRIVER_OPMODE_ON_BAT = "active";
 
-        # Operation mode select: 0=depend on power source, 1=always use TLP_DEFAULT_MODE
-        TLP_PERSISTENT_DEFAULT = 1;
+        CPU_ENERGY_PERF_POLICY_ON_AC = "balance_power";
+        CPU_ENERGY_PERF_POLICY_ON_BAT= "power";
 
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_BOOST_ON_AC = 1;
+        CPU_BOOST_ON_BAT = 0;
 
         CPU_HWP_DYN_BOOST_ON_AC = 1;
         CPU_HWP_DYN_BOOST_ON_BAT = 0;
 
         CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
+        CPU_MAX_PERF_ON_AC = 80;
         CPU_MIN_PERF_ON_BAT = 0;
         CPU_MAX_PERF_ON_BAT = 20;
+
+        RUNTIME_PM_ON_AC = "auto";
       };
     };
 
@@ -37,6 +36,27 @@
 
     # Conflicts with tlp
     power-profiles-daemon.enable = false;
+
+    xserver.videoDrivers = [ "nvidia" ];
   };
   boot.blacklistedKernelModules = [ "nouveau" ];
+
+  hardware = {
+    graphics.enable = true;
+    nvidia = {
+      open = false;
+      modesetting.enable = true;
+      forceFullCompositionPipeline = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+      prime = {
+        offload.enable = true;
+        offload.enableOffloadCmd = true;
+
+        nvidiaBusId = "PCI:1:0:0";
+        intelBusId = "PCI:0:2:0";
+      };
+    };
+  };
+
 }

@@ -129,13 +129,9 @@ in {
 
       # firefox
       # nerdfonts
-      android-studio
       element-desktop
       gh # GitHub client
       git
-      isabelle
-      jetbrains.goland
-      jetbrains.idea-community
       libreoffice-fresh
       livebook
       nextcloud-client
@@ -147,18 +143,6 @@ in {
       ugrep
       ugrep-indexer
       # ungoogled-chromium # Used for MS Teams
-      wireshark
-
-      (vscode-with-extensions.override {
-        vscodeExtensions = with vscode-extensions; [
-          ms-dotnettools.csharp # Ionide dependency
-          ionide.ionide-fsharp
-          asvetliakov.vscode-neovim
-
-          dracula-theme.theme-dracula
-          mkhl.direnv
-        ];
-      })
     ];
   };
 

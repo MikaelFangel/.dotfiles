@@ -6,7 +6,6 @@
     ./hardware-configuration.nix
     ./network-configuration.nix
     ./power-configuration.nix
-    ./specilisations.nix
     ./package-configuration.nix
   ];
 
