@@ -3,11 +3,7 @@
 {
   networking = {
     hostName = "nixos"; # Define your hostname.
-    networkmanager = {
-      enable = true;
-      wifi.macAddress = "random";
-      ethernet.macAddress = "random";
-    };
+    wireless.iwd.enable = true;
 
     # Firewall settings
     firewall = {

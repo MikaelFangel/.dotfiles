@@ -37,19 +37,15 @@
     LC_TIME = "da_DK.UTF-8";
   };
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.fira-code
-    nerd-fonts.symbols-only
-  ];
+  fonts.packages = with pkgs; [ nerd-fonts.fira-code nerd-fonts.symbols-only ];
 
   services = {
+    # Enable the KDE Plasma Desktop Environment.
+    # displayManager.sddm.enable = true;
+    desktopManager.plasma6.enable = true;
     xserver = {
       # Enable the X11 windowing system.
       enable = true;
-
-      # Enable the KDE Plasma Desktop Environment.
-      # displayManager.sddm.enable = true;
-      desktopManager.plasma5.enable = true;
 
       # Configure keymap in X11
       xkb = {
@@ -95,7 +91,7 @@
 
   # Enable sound with pipewire.
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.pam.services = {
     login.u2fAuth = true;
